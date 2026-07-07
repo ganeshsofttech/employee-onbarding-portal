@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import fs from "fs";
 import empdetails from "../data/empdetails.json";
 import employees from "../data/employees";
+import "./empreg.css";
 function EmployeeRegistration() {
   // State to store form data
   const [formData, setFormData] = useState({
@@ -24,6 +25,25 @@ function EmployeeRegistration() {
       ...formData,
       [name]: value, // update only the changed field
     });
+
+    let newErrors = {};
+
+    // Name Validation
+    if (name === "empname") {
+      if (!value.trim()) {
+        newErrors.empname = "Employee Name is required";
+      }else if(!/^[A-Za-z ]+$/.test(value)){
+        newErrors.empname = "Only Alphabets allowed";
+      }
+    }
+    if (name === "department") {
+      if (!value.trim()) {
+        newErrors.department = "Department Name is required";
+      }else if (value.length <= 1) {
+        newErrors.department = "Department name must be at least 2 charater";
+      }
+    }
+    setErrors(newErrors);
   };
 
   const validate = () => {
@@ -42,7 +62,7 @@ function EmployeeRegistration() {
     ) {
       newErrors.email = "Invalid email address";
     }
-    if(formData.department.length <= 1){
+    if (formData.department.length <= 1) {
       newErrors.department = "Department name must be at least 2 charater";
     }
     setErrors(newErrors);
@@ -53,7 +73,7 @@ function EmployeeRegistration() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page reload
-    if (validate()) {
+    if (Object.keys(errors).length === 0) {
       alert("Form Submitted Successfully");
 
       console.log("Form submitted:", formData);
@@ -70,99 +90,120 @@ function EmployeeRegistration() {
         designation: "",
         joiningdate: "",
       });
+    }else{
+      alert(Object.values(errors).toString());
     }
   };
 
   return (
-    <div>
+    <div className="page-container">
       <center>
-        <h2>Register Employee</h2>
-        {!submitted ? (
-          <form onSubmit={handleSubmit} style={styles.form}>
-            <label>
-              Employee Id:
-              <input
-                type="number"
-                name="empid"
-                value={formData.empid}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              Employee Name:
-              <input
-                type="text"
-                name="empname"
-                value={formData.empname}
-                onChange={handleChange}
-              />
-              {errors.empname && (
-                <p style={{ color: "red" }}>{errors.empname}</p>
-              )}
-            </label>
-
-            <label>
-              Employee Email:
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
-            </label>
-
-            <label>
-              Employee Department:
-              <input
-                type="text"
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                required
-              />
-              {errors.department && <p style={{ color: "red" }}>{errors.department}</p>}
-            </label>
-            <label>
-              Employee Designation:
-              <input
-                type="text"
-                name="designation"
-                value={formData.designation}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <label>
-              Employee Joining Date:
-              <input
-                type="Date"
-                name="joiningdate"
-                value={formData.joiningdate}
-                onChange={handleChange}
-                required
-              />
-            </label>
-            <button type="submit">Register</button>
-          </form>
-        ) : (
-          <p style={{ color: "green" }}>✅ Registered Successfully.</p>
-        )}
+        <div>
+          <div className="form-card">
+            <h2 className="form-title">Register Employee</h2>
+            {!submitted ? (
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label className="form-label"> Employee Id: </label>
+                  <input
+                    className="form-input"
+                    type="number"
+                    name="empid"
+                    value={formData.empid}
+                    onChange={handleChange}
+                    placeholder="Enter employee ID"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Employee Name:</label>
+                  <input
+                    className="form-input"
+                    type="text"
+                    name="empname"
+                    value={formData.empname}
+                    onChange={handleChange}
+                    placeholder="Enter employee name"
+                  />
+                  {errors.empname && (
+                    <span style={{ color: "red" }}>{errors.empname}</span>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Employee Email:</label>
+                  <input
+                    className="form-input"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter employee email"
+                  />
+                  {errors.email && (
+                    <span style={{ color: "red" }}>{errors.email}</span>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Employee Department:</label>
+                  <input
+                    className="form-input"
+                    type="text"
+                    name="department"
+                    value={formData.department}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter employee Department"
+                  />
+                  {errors.department && (
+                    <p style={{ color: "red" }}>{errors.department}</p>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Employee Designation:</label>
+                  <input
+                    className="form-input"
+                    type="text"
+                    name="designation"
+                    value={formData.designation}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter employee Designation"
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Employee Joining Date:</label>
+                  <input
+                    className="form-input"
+                    type="Date"
+                    name="joiningdate"
+                    value={formData.joiningdate}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <button type="submit" className="submit-btn">
+                  Register
+                </button>
+              </form>
+            ) : (
+              <p style={{ color: "green" }}>✅ Registered Successfully.</p>
+            )}
+          </div>
+        </div>
       </center>
     </div>
   );
 }
 
-const styles = {
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-    maxWidth: "400px",
-    marginTop: "20px",
-  },
-};
+// const styles = {
+//   form: {
+//     display: "flex",
+//     flexDirection: "column",
+//     gap: "12px",
+//     maxWidth: "400px",
+//     marginTop: "20px",
+//   },
+// };
 
 export default EmployeeRegistration;
