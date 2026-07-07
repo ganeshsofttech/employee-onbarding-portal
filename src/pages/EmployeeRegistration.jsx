@@ -18,6 +18,7 @@ function EmployeeRegistration() {
   const [errors, setErrors] = useState({});
   // Handle input changes dynamically
   const handleChange = (e) => {
+    // validate();
     const { name, value } = e.target; // extract field name and value
     setFormData({
       ...formData,
@@ -41,7 +42,7 @@ function EmployeeRegistration() {
     ) {
       newErrors.email = "Invalid email address";
     }
-    if(formData.department.length < 1){
+    if(formData.department.length <= 1){
       newErrors.department = "Department name must be at least 2 charater";
     }
     setErrors(newErrors);

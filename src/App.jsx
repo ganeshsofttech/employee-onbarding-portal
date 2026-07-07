@@ -39,12 +39,14 @@ function App() {
         setTheme={setTheme}
       />
       <main style={{ padding: "20px" }}>{renderPage()}</main> */}
+
+{/* 
       <Navbar  
         theme={theme}
         setTheme={setTheme}
         
-      />
-
+      /> */}
+<Navbar />
       <hr />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -61,7 +63,7 @@ function App() {
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

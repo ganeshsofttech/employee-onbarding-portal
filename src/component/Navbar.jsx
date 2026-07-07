@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
-export default function Navbar({ theme, setTheme }) {
+export default function Navbar() {
   const activeStyle = {
     color: "red",
 
@@ -8,8 +8,8 @@ export default function Navbar({ theme, setTheme }) {
   };
 
   return (
-    <nav>
-        <h2>Employee Onboarding Portal</h2>
+    <nav >
+      <h2>Employee Onboarding Portal</h2>
       <NavLink to="/" style={({ isActive }) => (isActive ? activeStyle : {})}>
         Home
       </NavLink>
@@ -49,9 +49,8 @@ export default function Navbar({ theme, setTheme }) {
         About
       </NavLink>
 
-
       {" | "}
-      <ThemeToggle theme={theme} setTheme={setTheme} />
+      {/* <ThemeToggle theme={theme} setTheme={setTheme} /> */}
     </nav>
   );
 }
