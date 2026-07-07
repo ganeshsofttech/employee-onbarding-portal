@@ -1,0 +1,38 @@
+.employee-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.employee-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 5px solid #1976d2;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: 0.3s;
+}
+
+.employee-card:hover {
+  transform: translateY(-5px);
+}
+
+.employee-card p {
+  margin: 8px 0;
+  color: #444;
+}
+
+.delete-btn {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #b71c1c;
+}

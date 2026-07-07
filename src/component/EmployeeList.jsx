@@ -1,41 +1,37 @@
-// import employees from "../data/employees";
+import "../css/EmployeeList.css";
 
+export default function EmployeeList({ employees, setEmployees }) {
 
-export default function EmployeeList({ employees }) {
-  const deleteUser = (empid) =>{
-        setEmployees(employees.filter(emp => emp.empid != empid));
-  }
+  const deleteUser = (empid) => {
+    setEmployees(
+      employees.filter((emp) => emp.empid !== empid)
+    );
+  };
+
   return (
-    <div>
+    <div className="employee-container">
       {employees.map((employee) => (
-        // <employeeCard key={employee.id} employee={employee} />
-        <div
-          style={{
-            border: "1px solid gray",
-            padding: 15,
-            marginBottom: 15,
-          }}
-        >
-          <p>Employee ID   :{employee.empid}</p>
+        <div className="employee-card" key={employee.empid}>
 
-          <p>Employee Name :{employee.empname}</p>
+          <p><b>Employee ID:</b> {employee.empid}</p>
 
-          <p>Employee Email:{employee.email}</p>
+          <p><b>Employee Name:</b> {employee.empname}</p>
 
-          <p>Employee Department:{employee.department}</p>
+          <p><b>Employee Email:</b> {employee.email}</p>
 
-          <p>Employee Designation:{employee.designation}</p>
+          <p><b>Department:</b> {employee.department}</p>
 
-          <p>Employee JoiningDate:{employee.joiningdate}</p>
-          {/* <button onClick={() => deleteUser(employee.empid)}>Delete</button> */}
-          {/* <p>Stock : {employee.stock}</p>
+          <p><b>Designation:</b> {employee.designation}</p>
 
-          <button onClick={() => addToCart(employee)}>Add To Cart</button>
+          <p><b>Joining Date:</b> {employee.joiningdate}</p>
 
-          <br />
-          <br />
+          <button
+            className="delete-btn"
+            onClick={() => deleteUser(employee.empid)}
+          >
+            Delete
+          </button>
 
-          <Link to={`/employees/${employee.id}`}>View Details</Link> */}
         </div>
       ))}
     </div>

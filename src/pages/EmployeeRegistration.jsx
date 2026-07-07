@@ -16,7 +16,14 @@ function EmployeeRegistration() {
 
   // State to track form submission
   const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    empid: "",
+    empname: "",
+    email: "",
+    department: "",
+    designation: "",
+    joiningdate: "",
+  });
   // Handle input changes dynamically
   const handleChange = (e) => {
     // validate();
@@ -32,18 +39,24 @@ function EmployeeRegistration() {
     if (name === "empname") {
       if (!value.trim()) {
         newErrors.empname = "Employee Name is required";
-      }else if(!/^[A-Za-z ]+$/.test(value)){
+      } else if (!/^[A-Za-z ]+$/.test(value)) {
         newErrors.empname = "Only Alphabets allowed";
       }
     }
     if (name === "department") {
       if (!value.trim()) {
         newErrors.department = "Department Name is required";
-      }else if (value.length <= 1) {
+      } else if (value.length <= 1) {
         newErrors.department = "Department name must be at least 2 charater";
       }
     }
-    setErrors(newErrors);
+    // setErrors(newErrors);
+
+    const error = validateField(name, value);
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
   };
 
   const validate = () => {
@@ -73,15 +86,39 @@ function EmployeeRegistration() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page reload
-    if (Object.keys(errors).length === 0) {
+    // if (Object.keys(errors).length === 0) {
+    //   alert("Form Submitted Successfully");
+
+    //   console.log("Form submitted:", formData);
+    //   employees.push({ empid: employees.length + 1, ...formData });
+
+    //   setSubmitted(true);
+
+    //   // Reset form after submission
+    //   setFormData({
+    //     empid: "",
+    //     empname: "",
+    //     email: "",
+    //     department: "",
+    //     designation: "",
+    //     joiningdate: "",
+    //   });
+    // } else {
+    //   alert(Object.values(errors).toString());
+    // }
+
+    const isValid = validateForm();
+
+    if (isValid) {
       alert("Form Submitted Successfully");
 
-      console.log("Form submitted:", formData);
-      employees.push({ empid: employees.length + 1, ...formData });
+      employees.push({
+        empid: employees.length + 1,
+        ...formData,
+      });
 
       setSubmitted(true);
 
-      // Reset form after submission
       setFormData({
         empid: "",
         empname: "",
@@ -90,12 +127,61 @@ function EmployeeRegistration() {
         designation: "",
         joiningdate: "",
       });
-    }else{
-      alert(Object.values(errors).toString());
+    } else {
+      alert("Please fix the validation errors.");
+    }
+  };
+  const validateField = (name, value) => {
+    switch (name) {
+      case "empid":
+        if (!value) return "Employee ID is required";
+        return "";
+
+      case "empname":
+        if (!value.trim()) return "Employee Name is required";
+        if (!/^[A-Za-z ]+$/.test(value)) return "Only alphabets allowed";
+        return "";
+
+      case "email":
+        if (!value.trim()) return "Email is required";
+        if (!/\S+@\S+\.\S+/.test(value)) return "Invalid email";
+        return "";
+
+      case "department":
+        if (!value.trim()) return "Department is required";
+        if (value.length < 2)
+          return "Department should be at least 2 characters";
+        return "";
+
+      case "designation":
+        if (!value.trim()) return "Designation is required";
+        return "";
+
+      case "joiningdate":
+        if (!value) return "Joining Date is required";
+        return "";
+
+      default:
+        return "";
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    Object.keys(formData).forEach((field) => {
+      const error = validateField(field, formData[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
   return (
+    <div>
     <div className="page-container">
       <center>
         <div>
@@ -193,65 +279,8 @@ function EmployeeRegistration() {
         </div>
       </center>
     </div>
+    </div>
   );
 }
 
-const validateField = (name, value) => {
-  switch (name) {
-    case "name":
-      if (!value.trim()) return "Name is required";
-      if (value.length < 3) return "Minimum 3 characters required";
-      return "";
-
-    case "email":
-      if (!value.trim()) return "Email is required";
-      if (!/\S+@\S+\.\S+/.test(value)) return "Invalid email";
-      return "";
-
-    default:
-      return "";
-  }
-};
-
-const handleChange = (e) => {
-  const { name, value } = e.target;
-
-  setFormData((prev) => ({
-    ...prev,
-    value
-  }));
-
-  setErrors((prev) => ({
-    ...prev,
-    validateField(name, value)
-  }));
-};
-const validateForm = () => {
-  const newErrors = {};
-
-  Object.keys(formData).forEach((field) => {
-    const error = validateField(field, formData[field]);
-    if (error) {
-      newErrors[field] = error;
-    }
-  });
-
-  setErrors(newErrors);
-
-  return Object.keys(newErrors).length === 0;
-};
-const validateForm = () => {
-  const newErrors = {};
-
-  Object.keys(formData).forEach((field) => {
-    const error = validateField(field, formData[field]);
-    if (error) {
-      newErrors[field] = error;
-    }
-  });
-
-  setErrors(newErrors);
-
-  return Object.keys(newErrors).length === 0;
-};
 export default EmployeeRegistration;

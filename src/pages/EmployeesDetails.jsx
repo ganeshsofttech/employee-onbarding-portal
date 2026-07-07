@@ -1,12 +1,19 @@
-import employees from "../data/employees";
-import EmployeeList from "../component/EmployeeList"
+import { useState } from "react";
+import employeesData from "../data/employees";
+import EmployeeList from "../component/EmployeeList";
+import "../css/EmployeesDetails.css";
+
 export default function EmployeesDetails() {
+  const [employees, setEmployees] = useState(employeesData);
+
   return (
-    <div>
-      <h3>All Employee Details</h3>
+    <div className="employees-page">
+      <h3 className="page-title">All Employee Details</h3>
 
-      <EmployeeList employees={employees} />
-
+      <EmployeeList
+        employees={employees}
+        setEmployees={setEmployees}
+      />
     </div>
   );
 }

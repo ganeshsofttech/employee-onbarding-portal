@@ -1,0 +1,12 @@
+.employees-page {
+  min-height: 80vh;
+  padding: 30px;
+  background-color: #f5f7fb;
+}
+
+.page-title {
+  text-align: center;
+  color: #1976d2;
+  font-size: 28px;
+  margin-bottom: 25px;
+}
