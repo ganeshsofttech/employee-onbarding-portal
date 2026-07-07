@@ -226,5 +226,32 @@ const handleChange = (e) => {
     validateField(name, value)
   }));
 };
+const validateForm = () => {
+  const newErrors = {};
 
+  Object.keys(formData).forEach((field) => {
+    const error = validateField(field, formData[field]);
+    if (error) {
+      newErrors[field] = error;
+    }
+  });
+
+  setErrors(newErrors);
+
+  return Object.keys(newErrors).length === 0;
+};
+const validateForm = () => {
+  const newErrors = {};
+
+  Object.keys(formData).forEach((field) => {
+    const error = validateField(field, formData[field]);
+    if (error) {
+      newErrors[field] = error;
+    }
+  });
+
+  setErrors(newErrors);
+
+  return Object.keys(newErrors).length === 0;
+};
 export default EmployeeRegistration;
