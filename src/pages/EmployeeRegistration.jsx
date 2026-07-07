@@ -139,3 +139,87 @@ const styles = {
 };
 
 export default EmployeeRegistration;
+
+
+import { useState } from "react";
+
+function UserForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: ""
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const validate = () => {
+    let newErrors = {};
+
+    // Name Validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    // Email Validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+    ) {
+      newErrors.email = "Invalid email address";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validate()) {
+      console.log("Form Submitted:", formData);
+      alert("Form Submitted Successfully");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+        {errors.name && (
+          <p style={{ color: "red" }}>{errors.name}</p>
+        )}
+      </div>
+
+      <div>
+        <label>Email:</label>
+        <input
+          type="text"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        {errors.email && (
+          <p style={{ color: "red" }}>{errors.email}</p>
+        )}
+      </div>
+
+      <button type="submit">Save</button>
+    </form>
+  );
+}
+
+export default UserForm;
