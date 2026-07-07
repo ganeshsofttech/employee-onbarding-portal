@@ -196,14 +196,35 @@ function EmployeeRegistration() {
   );
 }
 
-// const styles = {
-//   form: {
-//     display: "flex",
-//     flexDirection: "column",
-//     gap: "12px",
-//     maxWidth: "400px",
-//     marginTop: "20px",
-//   },
-// };
+const validateField = (name, value) => {
+  switch (name) {
+    case "name":
+      if (!value.trim()) return "Name is required";
+      if (value.length < 3) return "Minimum 3 characters required";
+      return "";
+
+    case "email":
+      if (!value.trim()) return "Email is required";
+      if (!/\S+@\S+\.\S+/.test(value)) return "Invalid email";
+      return "";
+
+    default:
+      return "";
+  }
+};
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    value
+  }));
+
+  setErrors((prev) => ({
+    ...prev,
+    validateField(name, value)
+  }));
+};
 
 export default EmployeeRegistration;
