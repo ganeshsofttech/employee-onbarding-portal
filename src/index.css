@@ -109,3 +109,33 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+/* Default styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* App wrapper */
+.app {
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Light Theme */
+.app.light {
+  background: #f9f9f9;
+  color: #222;
+}
+
+/* Dark Theme */
+.app.dark {
+  background: #222;
+  color: #f9f9f9;
+}
+
+button {
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}

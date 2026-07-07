@@ -1,0 +1,10 @@
+[
+  {
+    "empid": 1,
+    "empname": "Ganesh",
+    "email": "ganesh@gmail.com",
+    "department": "IT",
+    "designation": "Developer",
+    "joiningdate": "07-08-2022"
+  }
+]
