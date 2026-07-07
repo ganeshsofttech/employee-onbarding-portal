@@ -1,4 +1,10 @@
+// import employees from "../data/employees";
+
+
 export default function EmployeeList({ employees }) {
+  const deleteUser = (empid) =>{
+        setEmployees(employees.filter(emp => emp.empid != empid));
+  }
   return (
     <div>
       {employees.map((employee) => (
@@ -18,6 +24,10 @@ export default function EmployeeList({ employees }) {
 
           <p>Employee Department:{employee.department}</p>
 
+          <p>Employee Designation:{employee.designation}</p>
+
+          <p>Employee JoiningDate:{employee.joiningdate}</p>
+          {/* <button onClick={() => deleteUser(employee.empid)}>Delete</button> */}
           {/* <p>Stock : {employee.stock}</p>
 
           <button onClick={() => addToCart(employee)}>Add To Cart</button>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import  fs  from "fs";
 import empdetails from "../data/empdetails.json";
-
+import employees from "../data/employees";
 function EmployeeRegistration() {
   // State to store form data
   const [formData, setFormData] = useState({
@@ -29,6 +29,7 @@ function EmployeeRegistration() {
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page reload
     console.log("Form submitted:", formData);
+    employees.push({empid:employees.length + 1, ...formData});
     const jsonString = JSON.stringify(formData, null, 6); 
   
   // Write to file synchronously
@@ -56,7 +57,7 @@ function EmployeeRegistration() {
           <label>
             Employee Id:
             <input
-              type="text"
+              type="number"
               name="empid"
               value={formData.empid}
               onChange={handleChange}
@@ -119,7 +120,7 @@ function EmployeeRegistration() {
         </form>
       ) : (
         <p style={{ color: "green" }}>
-          ✅ Registration Successfull.
+          ✅ Registered Successfully.
         </p>
       )}
       </center>
