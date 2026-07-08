@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 import "../css/Navbar.css";
 
+import onboardingImage from "../assets/onboarding.png";
+
 export default function Navbar({ theme, setTheme }) {
   const activeStyle = {
     color: "red",
@@ -11,8 +13,13 @@ export default function Navbar({ theme, setTheme }) {
 
   return (
     <nav className="navbar">
-      <h2>Employee Onboarding Portal</h2>
-
+      {/* <h2>Employee Onboarding Portal</h2> */}
+      <NavLink
+        to="/">
+        <img className="logo"
+        src={onboardingImage}
+        alt="Employee Onboardingiv" />
+          </NavLink>
       <div className="nav-links">
         <NavLink
           to="/"

@@ -22,3 +22,11 @@
 .nav-links a:hover {
   color: yellow;
 }
+
+
+.logo {
+  width: 120px;
+  height: 45px;
+  /* object-fit: contain; */
+  
+}
