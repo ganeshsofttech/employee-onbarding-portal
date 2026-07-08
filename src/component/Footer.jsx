@@ -3,7 +3,7 @@ export default function Footer() {
     <footer>
       <hr />
 
-      <p>© 2026 Employee Onbarding Portal</p>
+      <p>© Owned and Developed by ganeshsoftech  last update:08-07-2026</p>
     </footer>
   );
 }
