@@ -148,8 +148,11 @@ function EmployeeRegistration() {
           .then((response) => {
             console.log(response.data);
             setSubmitted("✅ Updated Successfully.");
+          }).catch((error) => {
+            console.log(error);
+            alert(error);
           });
-        setSubmitted("✅ Updated Successfully.");
+        
         setTimeout(() => {
           setSubmitted("");
         }, 3000);
@@ -161,12 +164,14 @@ function EmployeeRegistration() {
           .post("http://localhost:3000/api/employee", formData)
           .then((response) => {
             console.log("Employee added:", response.data);
+            setSubmitted("✅ Registered Successfully.");
           })
           .catch((error) => {
             console.log(error);
+             alert(error);
           });
 
-        setSubmitted("✅ Registered Successfully.");
+        
         setTimeout(() => {
           setSubmitted("");
         }, 3000);
