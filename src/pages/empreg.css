@@ -130,3 +130,15 @@
     padding: 12px;
   }
 }
+
+.success-message {
+  width: fit-content;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+}

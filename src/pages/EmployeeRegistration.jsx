@@ -1,9 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import fs from "fs";
 import empdetails from "../data/empdetails.json";
 import employees from "../data/employees";
 import "./empreg.css";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+
 function EmployeeRegistration() {
+  const [editId, setEditId] = useState(null);
+  const location = useLocation();
+
+  const editEmployee = location.state?.employee;
+  useEffect(() => {
+    if (editEmployee) {
+      setFormData({
+        empid: editEmployee.empid,
+        empname: editEmployee.empname,
+        email: editEmployee.email,
+        department: editEmployee.department,
+        designation: editEmployee.designation,
+        joiningdate: editEmployee.joiningdate.substring(0, 10),
+      });
+
+      setEditId(editEmployee._id);
+    }
+  }, [editEmployee]);
+
   // State to store form data
   const [formData, setFormData] = useState({
     empid: "",
@@ -15,7 +37,7 @@ function EmployeeRegistration() {
   });
 
   // State to track form submission
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState("");
   const [errors, setErrors] = useState({
     empid: "",
     empname: "",
@@ -110,15 +132,45 @@ function EmployeeRegistration() {
     const isValid = validateForm();
 
     if (isValid) {
-      alert("Form Submitted Successfully");
+      // alert("Form Submitted Successfully");
 
-      employees.push({
-        empid: employees.length + 1,
-        ...formData,
-      });
+      // employees.push({
+      //   empid: employees.length + 1,
+      //   ...formData,
+      // });
 
-      setSubmitted(true);
+      // POST Data to Mongo DB
+      if (editId) {
+        // Update
 
+        axios
+          .put(`http://localhost:3000/api/employee/${editId}`, formData)
+          .then((response) => {
+            console.log(response.data);
+            setSubmitted("✅ Updated Successfully.");
+          });
+        setSubmitted("✅ Updated Successfully.");
+        setTimeout(() => {
+          setSubmitted("");
+        }, 3000);
+
+        // setEditEmployee(null);
+        setEditId(null);
+      } else {
+        axios
+          .post("http://localhost:3000/api/employee", formData)
+          .then((response) => {
+            console.log("Employee added:", response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        setSubmitted("✅ Registered Successfully.");
+        setTimeout(() => {
+          setSubmitted("");
+        }, 3000);
+      }
       setFormData({
         empid: "",
         empname: "",
@@ -182,12 +234,14 @@ function EmployeeRegistration() {
   };
   return (
     <div>
-    <div className="page-container">
-      <center>
-        <div>
-          <div className="form-card">
-            <h2 className="form-title">Register Employee</h2>
-            {!submitted ? (
+      <div className="page-container">
+        <center>
+          <div>
+            <div className="form-card">
+
+              <h2 className="form-title">{editId ? "Update" : "Register"} Employee</h2>
+              {submitted && <div className="success-message">{submitted}</div>}
+              {/* {!submitted ? ( */}
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label className="form-label"> Employee Id: </label>
@@ -230,7 +284,7 @@ function EmployeeRegistration() {
                     <span style={{ color: "red" }}>{errors.email}</span>
                   )}
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label className="form-label">Employee Department:</label>
                   <input
                     className="form-input"
@@ -241,6 +295,26 @@ function EmployeeRegistration() {
                     required
                     placeholder="Enter employee Department"
                   />
+                  {errors.department && (
+                    <p style={{ color: "red" }}>{errors.department}</p>
+                  )}
+                </div> */}
+                <div className="form-group">
+                  <label className="form-label">Employee Department:</label>
+
+                  <select
+                    className="form-input"
+                    name="department"
+                    value={formData.department}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Department</option>
+                    <option value="IT">IT</option>
+                    <option value="Sales">Sales</option>
+                    <option value="Management">Management</option>
+                  </select>
+
                   {errors.department && (
                     <p style={{ color: "red" }}>{errors.department}</p>
                   )}
@@ -268,17 +342,17 @@ function EmployeeRegistration() {
                     required
                   />
                 </div>
-                <button type="submit" className="submit-btn">
+                {/* <button type="submit" className="submit-btn">
                   Register
+                </button> */}
+                <button type="submit" className="submit-btn">
+                  {editId ? "Update" : "Register"}
                 </button>
               </form>
-            ) : (
-              <p style={{ color: "green" }}>✅ Registered Successfully.</p>
-            )}
+            </div>
           </div>
-        </div>
-      </center>
-    </div>
+        </center>
+      </div>
     </div>
   );
 }
